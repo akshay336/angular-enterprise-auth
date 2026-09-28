@@ -1,0 +1,143 @@
+<app-auth-layout
+  title="Create your enterprise workspace"
+  subtitle="Start your 30-day full-access trial with Omni-Bridge Solutions."
+  badgeText="Enterprise Access">
+  
+  <!-- Alert Notices -->
+  @if (authService.error()) {
+    <app-alert-banner
+      type="error"
+      [message]="authService.error()!"
+      (dismissed)="authService.clearMessages()" />
+  }
+
+  @if (authService.successMessage()) {
+    <app-alert-banner
+      type="success"
+      [message]="authService.successMessage()!"
+      (dismissed)="authService.clearMessages()" />
+  }
+
+  <!-- Social / SSO Sign Up -->
+  @if (themeService.config().showSocialAuth) {
+    <app-sso-buttons
+      actionText="Sign up with"
+      [loading]="authService.isLoading()"
+      (providerSelected)="handleSsoSignUp($event)" />
+
+    <div class="divider-text">
+      <span>Or register with work email</span>
+    </div>
+  }
+
+  <!-- Registration Form -->
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate class="auth-form">
+    <!-- Full Name -->
+    <app-auth-input
+      inputId="reg-name"
+      label="Full Name"
+      type="text"
+      placeholder="Akshay Jadhav"
+      autocomplete="name"
+      prefixIcon="user"
+      [required]="true"
+      formControlName="fullName" />
+
+    <!-- Work Email -->
+    <app-auth-input
+      inputId="reg-email"
+      label="Work Email"
+      type="email"
+      placeholder="akshay.jadhav@omni-bridge.com"
+      autocomplete="email"
+      prefixIcon="mail"
+      [required]="true"
+      hint="We will send your verification token here."
+      formControlName="email" />
+
+    <!-- Company / Workspace Name -->
+    @if (themeService.config().requireCompanyField) {
+      <app-auth-input
+        inputId="reg-company"
+        label="Organization / Company Name"
+        type="text"
+        placeholder="Omni-Bridge Solutions"
+        autocomplete="organization"
+        prefixIcon="building"
+        [required]="true"
+        formControlName="companyName" />
+    }
+
+    <!-- Password Input -->
+    <div class="password-group">
+      <app-auth-input
+        inputId="reg-password"
+        label="Create Secure Password"
+        type="password"
+        placeholder="••••••••••••"
+        autocomplete="new-password"
+        prefixIcon="lock"
+        [required]="true"
+        formControlName="password" />
+
+      <!-- Dynamic Live Strength Meter -->
+      <app-password-strength-meter [password]="passwordValue" />
+    </div>
+
+    <!-- Confirm Password Input -->
+    <app-auth-input
+      inputId="reg-confirm-password"
+      label="Confirm Password"
+      type="password"
+      placeholder="••••••••••••"
+      autocomplete="new-password"
+      prefixIcon="shield-check"
+      [required]="true"
+      formControlName="confirmPassword" />
+
+    <!-- Terms and Privacy Agreement Checkbox -->
+    <div class="terms-checkbox-container">
+      <label class="custom-checkbox-label">
+        <input
+          type="checkbox"
+          formControlName="agreeToTerms"
+          class="native-checkbox" />
+        <span class="checkbox-custom-box">
+          <app-icon name="check" [size]="12" class="check-mark" />
+        </span>
+        <span class="checkbox-text">
+          I agree to the
+          <a [href]="themeService.config().termsUrl" target="_blank" (click)="$event.stopPropagation()">Terms of Service</a>
+          and
+          <a [href]="themeService.config().privacyUrl" target="_blank" (click)="$event.stopPropagation()">Privacy Policy</a>.
+        </span>
+      </label>
+
+      @if (registerForm.get('agreeToTerms')?.invalid && (registerForm.get('agreeToTerms')?.dirty || registerForm.get('agreeToTerms')?.touched)) {
+        <p class="terms-error-text animate-fade-in" role="alert">
+          <app-icon name="alert-circle" [size]="13" />
+          <span>You must accept the terms and privacy policy to continue.</span>
+        </p>
+      }
+    </div>
+
+    <!-- Submit Button -->
+    <app-auth-button
+      type="submit"
+      variant="primary"
+      size="md"
+      [loading]="authService.isLoading()"
+      [disabled]="authService.isLoading()">
+      Create Enterprise Workspace
+      <span slot="loading">Creating Workspace...</span>
+    </app-auth-button>
+  </form>
+
+  <!-- Card Footer Slot -->
+  <div slot="footer" class="auth-footer-prompt">
+    <span>Already have an account?</span>
+    <a routerLink="/auth/login" class="footer-action-link">
+      Sign in
+    </a>
+  </div>
+</app-auth-layout>

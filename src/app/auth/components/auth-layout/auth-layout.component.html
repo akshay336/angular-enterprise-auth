@@ -1,0 +1,158 @@
+<div class="auth-page-container">
+  <!-- Main Split Layout -->
+  <div class="auth-layout-grid">
+    
+    <!-- LEFT SIDE: Enterprise Brand Showcase (Hidden on Mobile/Small Tablets) -->
+    <aside class="auth-side-panel" aria-label="Product Showcase">
+      <!-- Background Ambient Pattern -->
+      <div class="side-panel-pattern-overlay"></div>
+      
+      <div class="side-panel-content">
+        <!-- Brand Logo & Name -->
+        <header class="side-brand-header">
+          <div class="brand-logo-badge">
+            <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none">
+              <rect width="32" height="32" rx="8" fill="var(--brand-500)"/>
+              <path d="M9 16L15 22L23 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="23" cy="10" r="2" fill="#67e8f9" />
+            </svg>
+            <div class="brand-identity">
+              <span class="brand-name">{{ config().appName }}</span>
+              <span class="brand-tier">Omni-Bridge IAM</span>
+            </div>
+          </div>
+
+          <div class="compliance-badge">
+            <span class="status-pulse"></span>
+            <span>SOC-2 Type II</span>
+          </div>
+        </header>
+
+        <!-- Middle Value Proposition / Highlights -->
+        <div class="showcase-middle">
+          <div class="eyebrow-tag">
+            <app-icon name="sparkles" [size]="14" />
+            <span>Enterprise Identity Platform</span>
+          </div>
+          <h2 class="showcase-headline">
+            Unified access governance for mission-critical operations.
+          </h2>
+          <p class="showcase-description">
+            Protect workloads, automate provisioning, and safeguard user identity with zero-trust policies built for enterprise scale.
+          </p>
+
+          <!-- Feature Highlights Grid -->
+          <div class="features-list">
+            @for (feat of config().featureHighlights; track feat.title) {
+              <div class="feature-item">
+                <div class="feature-icon-box">
+                  <app-icon [name]="feat.icon" [size]="16" />
+                </div>
+                <div class="feature-text">
+                  <div class="feat-title">{{ feat.title }}</div>
+                  <div class="feat-desc">{{ feat.description }}</div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Bottom Testimonial Card -->
+        <footer class="side-testimonial-card">
+          <div class="quote-mark">“</div>
+          <p class="quote-text">{{ activeTestimonial().quote }}</p>
+          
+          <div class="quote-author-row">
+            <div class="author-avatar-placeholder">
+              {{ activeTestimonial().author.charAt(0) }}
+            </div>
+            <div class="author-details">
+              <div class="author-name">{{ activeTestimonial().author }}</div>
+              <div class="author-role">{{ activeTestimonial().role }}, {{ activeTestimonial().company }}</div>
+            </div>
+            @if (activeTestimonial().statNumber) {
+              <div class="stat-badge">
+                <span class="stat-val">{{ activeTestimonial().statNumber }}</span>
+                <span class="stat-lbl">{{ activeTestimonial().statLabel }}</span>
+              </div>
+            }
+          </div>
+        </footer>
+      </div>
+    </aside>
+
+    <!-- RIGHT SIDE: Auth Form Container -->
+    <main class="auth-main-panel">
+      <!-- Top Controls: Mobile Brand, Theme Switcher & Back Link -->
+      <div class="panel-top-bar">
+        <!-- Mobile Brand Identity -->
+        <div class="mobile-brand-logo">
+          <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="var(--brand-500)"/>
+            <path d="M9 16L15 22L23 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="brand-name">{{ config().appName }}</span>
+        </div>
+
+        <div class="top-bar-actions">
+          <!-- Theme Toggle Button -->
+          <button
+            type="button"
+            class="theme-toggle-btn"
+            [attr.aria-label]="'Switch to ' + (themeService.currentTheme() === 'dark' ? 'Light' : 'Dark') + ' theme'"
+            (click)="themeService.toggleTheme()">
+            <app-icon [name]="themeService.currentTheme() === 'dark' ? 'sun' : 'moon'" [size]="16" />
+            <span class="theme-text">{{ themeService.currentTheme() === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Centered Auth Card Container -->
+      <div class="auth-card-wrapper animate-slide-up">
+        <!-- Card Header -->
+        <div class="auth-card-header">
+          @if (showBackLink() && backLinkUrl()) {
+            <a [routerLink]="backLinkUrl()" class="back-link">
+              <app-icon name="arrow-left" [size]="14" />
+              <span>{{ backLinkLabel() || 'Back' }}</span>
+            </a>
+          }
+
+          @if (badgeText()) {
+            <div class="auth-header-badge">{{ badgeText() }}</div>
+          }
+
+          <h1 class="auth-card-title">{{ title() }}</h1>
+          @if (subtitle()) {
+            <p class="auth-card-subtitle">{{ subtitle() }}</p>
+          }
+        </div>
+
+        <!-- Injected Screen Content (Forms, Validation, SSO, etc.) -->
+        <div class="auth-card-body">
+          <ng-content></ng-content>
+        </div>
+
+        <!-- Injected Card Footer Actions -->
+        <div class="auth-card-footer">
+          <ng-content select="[slot=footer]"></ng-content>
+        </div>
+      </div>
+
+      <!-- Bottom Legal & Support Footer -->
+      <footer class="panel-bottom-footer">
+        <div class="footer-links">
+          <a [href]="config().termsUrl" target="_blank" rel="noopener">Terms of Service</a>
+          <span class="dot-separator">•</span>
+          <a [href]="config().privacyUrl" target="_blank" rel="noopener">Privacy Notice</a>
+          <span class="dot-separator">•</span>
+          <a [href]="'mailto:' + config().supportEmail">Enterprise Support</a>
+        </div>
+        <div class="copyright-text">
+          © 2026 Omni-Bridge Solutions. All rights reserved.
+        </div>
+      </footer>
+    </main>
+
+  </div>
+</div>

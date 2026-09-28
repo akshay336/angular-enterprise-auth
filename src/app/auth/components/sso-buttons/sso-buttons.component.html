@@ -1,0 +1,26 @@
+<div class="sso-container">
+  <div class="sso-grid">
+    @for (provider of activeProviders(); track provider.id) {
+      <button
+        type="button"
+        class="sso-btn"
+        [disabled]="loading()"
+        [attr.aria-label]="actionText() + ' ' + provider.name"
+        (click)="selectProvider(provider.id)">
+        <app-icon [name]="provider.icon" [size]="18" class="sso-icon" />
+        <span class="sso-name">{{ provider.name }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Enterprise SAML / Okta toggle option -->
+  @if (showSamlOption()) {
+    <button
+      type="button"
+      class="saml-link-btn"
+      (click)="selectProvider('saml')">
+      <app-icon name="shield" [size]="14" />
+      <span>Sign in with Enterprise SSO / SAML</span>
+    </button>
+  }
+</div>

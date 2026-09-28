@@ -1,0 +1,70 @@
+<div class="input-group" [class.has-error]="hasError()" [class.is-focused]="isFocused()" [class.is-disabled]="isDisabled()">
+  <!-- Label Header -->
+  <div class="label-row">
+    @if (label()) {
+      <label [for]="inputId()" class="input-label">
+        {{ label() }}
+        @if (required()) {
+          <span class="required-indicator" aria-hidden="true">*</span>
+        }
+      </label>
+    }
+    <ng-content select="[slot=label-extra]"></ng-content>
+  </div>
+
+  <!-- Input Field Container -->
+  <div class="input-wrapper">
+    @if (prefixIcon()) {
+      <span class="prefix-icon-container" aria-hidden="true">
+        <app-icon [name]="prefixIcon()!" [size]="18" />
+      </span>
+    }
+
+    <input
+      #inputElement
+      [id]="inputId()"
+      [type]="resolvedType()"
+      [value]="value()"
+      [placeholder]="placeholder()"
+      [autocomplete]="autocomplete()"
+      [disabled]="isDisabled()"
+      [readonly]="readonly()"
+      [attr.aria-invalid]="hasError()"
+      [attr.aria-describedby]="ariaDescribedBy()"
+      [attr.aria-required]="required()"
+      (input)="handleInput($event)"
+      (focus)="handleFocus()"
+      (blur)="handleBlur()"
+      class="native-input"
+      [class.has-prefix]="prefixIcon()"
+      [class.has-suffix]="type() === 'password' || hasSuffixSlot"
+    />
+
+    <!-- Password Visibility Toggle -->
+    @if (type() === 'password') {
+      <button
+        type="button"
+        class="password-toggle-btn"
+        [attr.aria-label]="isPasswordVisible() ? 'Hide password' : 'Show password'"
+        [attr.aria-pressed]="isPasswordVisible()"
+        (click)="togglePasswordVisibility()"
+        tabindex="-1">
+        <app-icon [name]="isPasswordVisible() ? 'eye-off' : 'eye'" [size]="18" />
+      </button>
+    }
+
+    <ng-content select="[slot=suffix]"></ng-content>
+  </div>
+
+  <!-- Hint or Validation Error Message -->
+  @if (hasError() && errorMessage()) {
+    <p class="error-message animate-fade-in" [id]="errorId()" role="alert">
+      <app-icon name="alert-circle" [size]="14" />
+      <span>{{ errorMessage() }}</span>
+    </p>
+  } @else if (hint()) {
+    <p class="hint-text" [id]="hintId()">
+      {{ hint() }}
+    </p>
+  }
+</div>

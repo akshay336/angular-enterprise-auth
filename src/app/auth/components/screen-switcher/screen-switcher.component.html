@@ -1,0 +1,91 @@
+<div class="screen-switcher-dock" [class.collapsed]="isCollapsed()">
+  <!-- Toggle Expand / Collapse Button -->
+  <button
+    type="button"
+    class="dock-toggle-btn"
+    (click)="isCollapsed.set(!isCollapsed())"
+    [attr.aria-label]="isCollapsed() ? 'Expand screen switcher preview bar' : 'Collapse screen switcher preview bar'">
+    <app-icon [name]="isCollapsed() ? 'sparkles' : 'x'" [size]="16" />
+    @if (isCollapsed()) {
+      <span class="dock-pill-label">Preview Screens</span>
+    }
+  </button>
+
+  @if (!isCollapsed()) {
+    <div class="dock-panel animate-fade-in">
+      <div class="dock-section-title">
+        <span class="pulse-dot"></span>
+        <span>Enterprise Module Preview</span>
+      </div>
+
+      <!-- Screen Navigation Tabs -->
+      <nav class="screens-nav" aria-label="Quick screen preview">
+        <a
+          routerLink="/auth/login"
+          routerLinkActive="active"
+          class="screen-link">
+          <span class="nav-tag">01</span> Login
+        </a>
+        <a
+          routerLink="/auth/register"
+          routerLinkActive="active"
+          class="screen-link">
+          <span class="nav-tag">02</span> Sign Up
+        </a>
+        <a
+          routerLink="/auth/forgot-password"
+          routerLinkActive="active"
+          class="screen-link">
+          <span class="nav-tag">03</span> Forgot Pwd
+        </a>
+        <a
+          routerLink="/auth/reset-password"
+          [queryParams]="{ token: 'apex_sec_demo_tok_99182' }"
+          routerLinkActive="active"
+          class="screen-link">
+          <span class="nav-tag">04</span> Reset Pwd
+        </a>
+        <a
+          routerLink="/auth/verify-mfa"
+          routerLinkActive="active"
+          class="screen-link">
+          <span class="nav-tag">05</span> 2FA / MFA
+        </a>
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          class="screen-link dashboard-link">
+          <app-icon name="laptop" [size]="12" /> Dashboard
+        </a>
+      </nav>
+
+      <div class="dock-divider"></div>
+
+      <!-- Live Brand Palette Customizer -->
+      <div class="theme-customizer-row">
+        <span class="theme-label">Brand Palette:</span>
+        <div class="palette-options">
+          @for (color of brandColors; track color.id) {
+            <button
+              type="button"
+              class="color-chip"
+              [class.active]="themeService.currentBrandColor() === color.id"
+              [style.backgroundColor]="color.hex"
+              [title]="color.name"
+              (click)="themeService.setBrandColor(color.id)">
+            </button>
+          }
+        </div>
+
+        <!-- Dark / Light Quick Toggle -->
+        <button
+          type="button"
+          class="mode-toggle-btn"
+          (click)="themeService.toggleTheme()">
+          <app-icon [name]="themeService.currentTheme() === 'dark' ? 'sun' : 'moon'" [size]="13" />
+          <span>{{ themeService.currentTheme() === 'dark' ? 'Light' : 'Dark' }}</span>
+        </button>
+      </div>
+    </div>
+  }
+</div>

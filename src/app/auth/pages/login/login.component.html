@@ -1,0 +1,124 @@
+<app-auth-layout
+  title="Sign in to your account"
+  subtitle="Enter your enterprise credentials to access your workspace."
+  badgeText="Secure Gateway">
+  
+  <!-- Alert Notices -->
+  @if (authService.error()) {
+    <app-alert-banner
+      type="error"
+      [message]="authService.error()!"
+      (dismissed)="authService.clearMessages()" />
+  }
+
+  @if (authService.successMessage()) {
+    <app-alert-banner
+      type="success"
+      [message]="authService.successMessage()!"
+      (dismissed)="authService.clearMessages()" />
+  }
+
+  <!-- Demo Quick Fill Pill Header -->
+  <div class="demo-helpers-box">
+    <div class="demo-helper-label">
+      <app-icon name="sparkles" [size]="12" />
+      <span>Quick Demo Auto-fill:</span>
+    </div>
+    <div class="demo-pills">
+      <button
+        type="button"
+        class="demo-pill"
+        (click)="fillDemoCredentials('admin')">
+        Admin Account
+      </button>
+      <button
+        type="button"
+        class="demo-pill"
+        (click)="fillDemoCredentials('developer')">
+        Developer
+      </button>
+    </div>
+  </div>
+
+  <!-- Social / Enterprise SSO Options -->
+  @if (themeService.config().showSocialAuth) {
+    <app-sso-buttons
+      actionText="Sign in with"
+      [loading]="authService.isLoading()"
+      (providerSelected)="handleSsoLogin($event)" />
+
+    <div class="divider-text">
+      <span>Or continue with email</span>
+    </div>
+  }
+
+  <!-- Main Login Reactive Form -->
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate class="auth-form">
+    <!-- Work Email Input -->
+    <app-auth-input
+      inputId="login-email"
+      label="Work Email"
+      type="email"
+      placeholder="name@company.com"
+      autocomplete="email"
+      prefixIcon="mail"
+      [required]="true"
+      formControlName="email" />
+
+    <!-- Password Input with Forgot Link slot -->
+    <div class="password-field-container">
+      <app-auth-input
+        inputId="login-password"
+        label="Password"
+        type="password"
+        placeholder="••••••••••••"
+        autocomplete="current-password"
+        prefixIcon="lock"
+        [required]="true"
+        formControlName="password">
+        <a
+          slot="label-extra"
+          routerLink="/auth/forgot-password"
+          class="forgot-password-link"
+          tabindex="0">
+          Forgot password?
+        </a>
+      </app-auth-input>
+    </div>
+
+    <!-- Remember Me Checkbox -->
+    @if (themeService.config().enableRememberMe) {
+      <div class="form-checkbox-row">
+        <label class="custom-checkbox-label">
+          <input
+            type="checkbox"
+            formControlName="rememberMe"
+            class="native-checkbox" />
+          <span class="checkbox-custom-box">
+            <app-icon name="check" [size]="12" class="check-mark" />
+          </span>
+          <span class="checkbox-text">Keep me signed in for 30 days</span>
+        </label>
+      </div>
+    }
+
+    <!-- Submit Button -->
+    <app-auth-button
+      type="submit"
+      variant="primary"
+      size="md"
+      [loading]="authService.isLoading()"
+      [disabled]="authService.isLoading()">
+      Sign in to Workspace
+      <span slot="loading">Authenticating...</span>
+    </app-auth-button>
+  </form>
+
+  <!-- Card Footer Slot -->
+  <div slot="footer" class="auth-footer-prompt">
+    <span>Don't have an enterprise account?</span>
+    <a routerLink="/auth/register" class="footer-action-link">
+      Create account
+    </a>
+  </div>
+</app-auth-layout>

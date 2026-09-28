@@ -1,0 +1,207 @@
+<div class="dashboard-layout">
+  <!-- Top Navigation Bar -->
+  <header class="dash-navbar">
+    <div class="nav-brand">
+      <div class="brand-logo-badge">
+        <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="var(--brand-500)"/>
+          <path d="M9 16L15 22L23 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="23" cy="10" r="2" fill="#67e8f9" />
+        </svg>
+      </div>
+      <div class="brand-title-wrap">
+        <span class="brand-title">{{ themeService.config().appName }}</span>
+        <span class="brand-env">Omni-Bridge Cluster</span>
+      </div>
+    </div>
+
+    <div class="nav-controls">
+      <!-- Theme Toggle -->
+      <button
+        type="button"
+        class="dash-icon-btn"
+        [title]="'Switch to ' + (themeService.currentTheme() === 'dark' ? 'Light' : 'Dark') + ' mode'"
+        (click)="themeService.toggleTheme()">
+        <app-icon [name]="themeService.currentTheme() === 'dark' ? 'sun' : 'moon'" [size]="16" />
+      </button>
+
+      <!-- User Profile Dropdown / Card -->
+      <div class="user-pill">
+        <div class="avatar-ring">
+          {{ (currentUser()?.fullName || 'User').charAt(0) }}
+        </div>
+        <div class="user-meta">
+          <span class="user-name">{{ currentUser()?.fullName || 'Akshay Jadhav' }}</span>
+          <span class="user-role">{{ currentUser()?.role || 'Admin' }}</span>
+        </div>
+      </div>
+
+      <!-- Sign Out Button -->
+      <app-auth-button
+        variant="outline"
+        size="sm"
+        [fullWidth]="false"
+        (clicked)="handleLogout()">
+        Sign Out
+      </app-auth-button>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Container -->
+  <main class="dash-container animate-fade-in">
+    <!-- Hero Welcome Header -->
+    <div class="dash-hero">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="live-dot"></span>
+          <span>Authenticated Session Active</span>
+        </div>
+        <h1 class="hero-title">
+          Welcome back, {{ currentUser()?.fullName || 'Akshay Jadhav' }}
+        </h1>
+        <p class="hero-subtitle">
+          Organization: <strong>{{ currentUser()?.companyName || 'Omni-Bridge Solutions' }}</strong> • Access Level: <strong class="badge-role">{{ currentUser()?.role || 'Super Admin' }}</strong>
+        </p>
+      </div>
+
+      <div class="hero-actions">
+        <a routerLink="/auth/login" class="hero-btn-secondary">
+          <app-icon name="arrow-left" [size]="14" />
+          <span>Auth Screens Hub</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Metric Grid -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-title">Identity Status</span>
+          <app-icon name="shield-check" [size]="18" class="metric-icon-success" />
+        </div>
+        <div class="metric-value">Active & Verified</div>
+        <div class="metric-footer">
+          <span class="tag-success">SOC-2 Type II Compliant</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-title">MFA Protection</span>
+          <app-icon name="key" [size]="18" class="metric-icon-info" />
+        </div>
+        <div class="metric-value">
+          {{ currentUser()?.isMfaEnabled ? 'Enforced (TOTP)' : 'Adaptive MFA' }}
+        </div>
+        <div class="metric-footer">
+          <span class="footer-note">Hardware keys & Authenticator ready</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-title">Session Security</span>
+          <app-icon name="sparkles" [size]="18" class="metric-icon-brand" />
+        </div>
+        <div class="metric-value">256-bit TLS Encrypted</div>
+        <div class="metric-footer">
+          <span class="footer-note">Token expires in 23h 58m</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture & Integration Showcase Card -->
+    <div class="integration-card">
+      <div class="integration-header">
+        <div>
+          <h2 class="section-title">Omni-Bridge Auth Architecture</h2>
+          <p class="section-subtitle">
+            This modular package is ready to drop into any Angular enterprise application.
+          </p>
+        </div>
+        <div class="tabs-control">
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="selectedTab() === 'overview'"
+            (click)="selectedTab.set('overview')">
+            Architecture
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="selectedTab() === 'code'"
+            (click)="selectedTab.set('code')">
+            Import Guide
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="selectedTab() === 'session'"
+            (click)="selectedTab.set('session')">
+            Active JWT Token
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-body">
+        @if (selectedTab() === 'overview') {
+          <div class="overview-grid">
+            <div class="feat-box">
+              <div class="feat-badge">Signals & Reactive Forms</div>
+              <p>Zero boilerplate state with Angular Signals and Reactive Forms custom cross-field validators.</p>
+            </div>
+            <div class="feat-box">
+              <div class="feat-badge">Enterprise Split Layout</div>
+              <p>Responsive desktop showcase + mobile-optimized card layout with custom brand theming.</p>
+            </div>
+            <div class="feat-box">
+              <div class="feat-badge">Password Policy Engine</div>
+              <p>Real-time strength computation, requirement checklists, and match validators.</p>
+            </div>
+            <div class="feat-box">
+              <div class="feat-badge">Universal SSO & SAML</div>
+              <p>Plug-and-play SSO provider buttons (Google, Azure AD, Okta, GitHub, SAML 2.0).</p>
+            </div>
+          </div>
+        }
+
+        @if (selectedTab() === 'code') {
+          <div class="code-block-wrapper">
+            <pre class="code-pre"><code>// Import Auth routes into any Angular standalone app
+export const routes: Routes = [
+  &#123;
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES)
+  &#125;,
+  &#123;
+    path: 'dashboard',
+    canActivate: [authGuard],
+    loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
+  &#125;
+];
+
+// Provide custom branding configuration in app.config.ts:
+export const appConfig: ApplicationConfig = &#123;
+  providers: [
+    provideAuthConfig(&#123;
+      appName: 'OmniBridge',
+      supportEmail: 'support&#64;omni-bridge.com',
+      portalUrl: 'https://omni-bridge.com/',
+      ssoProviders: ['google', 'microsoft', 'okta', 'saml']
+    &#125;)
+  ]
+&#125;;</code></pre>
+          </div>
+        }
+
+        @if (selectedTab() === 'session') {
+          <div class="code-block-wrapper">
+            <pre class="code-pre"><code>// Active Session Decoded Payload
+{{ sessionJson() }}</code></pre>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+</div>
