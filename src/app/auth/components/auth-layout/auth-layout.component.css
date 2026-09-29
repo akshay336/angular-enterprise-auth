@@ -33,7 +33,7 @@
 }
 
 /* ==========================================================================
-   LEFT SIDE PANEL (60% WIDTH): EVENLY DISTRIBUTED ENTERPRISE SHOWCASE
+   LEFT SIDE PANEL (60% WIDTH): FULL VIEW ENTERPRISE BRAND SHOWCASE
    ========================================================================== */
 .auth-side-panel {
   display: none;
@@ -460,36 +460,46 @@
 }
 
 /* ==========================================================================
-   RIGHT SIDE PANEL (40% WIDTH): EVENLY DISTRIBUTED AUTH FORM
+   RIGHT SIDE PANEL (40% WIDTH): FULL VIEW SEAMLESS SECTION
    ========================================================================== */
 .auth-main-panel {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distributes top-bar, centered card, and footer */
-  align-items: center;
-  padding: 1.75rem 2rem;
   width: 100%;
   height: 100vh;
   height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: var(--bg-canvas);
+  background-color: var(--bg-surface);
   box-sizing: border-box;
 }
 
-@media (min-width: 640px) {
-  .auth-main-panel {
-    padding: 2rem 2.5rem;
+.right-view-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100%;
+  height: 100%;
+  padding: 1.75rem 2rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 500px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1200px) {
+  .right-view-container {
+    padding: 2.25rem 2.75rem;
   }
 }
 
-/* Top Controls */
+/* Top Controls Inside Right View */
 .panel-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 480px;
   flex-shrink: 0;
 }
 
@@ -529,7 +539,7 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.3rem 0.75rem;
-  background-color: var(--bg-surface);
+  background-color: var(--bg-subtle);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
   color: var(--text-secondary);
@@ -550,24 +560,12 @@
   box-shadow: var(--ring-focus);
 }
 
-/* Auth Card Wrapper (Centered in remaining space) */
-.auth-card-wrapper {
+/* Auth Form Wrapper (Full-View Seamless Center) */
+.auth-form-wrapper {
   width: 100%;
-  max-width: 480px;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-xl);
-  padding: 1.5rem 1.85rem;
-  box-shadow: var(--shadow-card);
   margin: auto 0;
   flex-shrink: 0;
   box-sizing: border-box;
-}
-
-@media (min-width: 640px) {
-  .auth-card-wrapper {
-    padding: 1.65rem 2rem;
-  }
 }
 
 .auth-card-header {
@@ -606,7 +604,7 @@
 }
 
 .auth-card-title {
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
@@ -632,18 +630,18 @@
   color: var(--text-secondary);
 }
 
-/* Bottom Panel Footer */
+/* Bottom Panel Footer Inside Right View */
 .panel-bottom-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
   width: 100%;
-  max-width: 480px;
   font-size: 0.75rem;
   color: var(--text-muted);
   text-align: center;
   flex-shrink: 0;
+  margin-top: 0.75rem;
 }
 
 .footer-links {

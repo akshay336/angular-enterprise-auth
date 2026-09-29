@@ -49,7 +49,7 @@
             Protect multi-tenant workloads, automate real-time provisioning, and safeguard enterprise identities with zero-trust security policies built for global scale.
           </p>
 
-          <!-- Feature Highlights 2-Column Grid (Fills 60% canvas beautifully) -->
+          <!-- Feature Highlights 3-Column Grid -->
           <div class="features-grid">
             @for (feat of config().featureHighlights; track feat.title) {
               <div class="feature-card">
@@ -117,77 +117,81 @@
       </div>
     </aside>
 
-    <!-- RIGHT SIDE: 40% Auth Form Container -->
+    <!-- RIGHT SIDE: 40% Full View Section -->
     <main class="auth-main-panel">
-      <!-- Top Controls: Mobile Brand, Theme Switcher & Back Link -->
-      <div class="panel-top-bar">
-        <!-- Mobile Brand Identity (Visible on mobile screens) -->
-        <div class="mobile-brand-logo">
-          <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none">
-            <rect width="32" height="32" rx="8" fill="var(--brand-500)"/>
-            <path d="M9 16L15 22L23 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span class="brand-name">{{ config().appName }}</span>
+      <!-- Full View Inner Container (Seamlessly integrating Top Bar, Form, and Footer) -->
+      <div class="right-view-container">
+        
+        <!-- Top Bar: Mobile Brand & Theme Mode Toggle Button (Inside Top) -->
+        <header class="panel-top-bar">
+          <div class="mobile-brand-logo">
+            <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none">
+              <rect width="32" height="32" rx="8" fill="var(--brand-500)"/>
+              <path d="M9 16L15 22L23 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="brand-name">{{ config().appName }}</span>
+          </div>
+
+          <div class="top-bar-actions">
+            <!-- Mode Button Inside Right View -->
+            <button
+              type="button"
+              class="theme-toggle-btn"
+              [attr.aria-label]="'Switch to ' + (themeService.currentTheme() === 'dark' ? 'Light' : 'Dark') + ' theme'"
+              (click)="themeService.toggleTheme()">
+              <app-icon [name]="themeService.currentTheme() === 'dark' ? 'sun' : 'moon'" [size]="15" />
+              <span class="theme-text">{{ themeService.currentTheme() === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Center Auth Form Area -->
+        <div class="auth-form-wrapper animate-slide-up">
+          <!-- Card Header -->
+          <div class="auth-card-header">
+            @if (showBackLink() && backLinkUrl()) {
+              <a [routerLink]="backLinkUrl()" class="back-link">
+                <app-icon name="arrow-left" [size]="14" />
+                <span>{{ backLinkLabel() || 'Back' }}</span>
+              </a>
+            }
+
+            @if (badgeText()) {
+              <div class="auth-header-badge">{{ badgeText() }}</div>
+            }
+
+            <h1 class="auth-card-title">{{ title() }}</h1>
+            @if (subtitle()) {
+              <p class="auth-card-subtitle">{{ subtitle() }}</p>
+            }
+          </div>
+
+          <!-- Injected Screen Content (Forms, Validation, SSO, etc.) -->
+          <div class="auth-card-body">
+            <ng-content></ng-content>
+          </div>
+
+          <!-- Injected Card Footer Actions -->
+          <div class="auth-card-footer">
+            <ng-content select="[slot=footer]"></ng-content>
+          </div>
         </div>
 
-        <div class="top-bar-actions">
-          <!-- Theme Toggle Button -->
-          <button
-            type="button"
-            class="theme-toggle-btn"
-            [attr.aria-label]="'Switch to ' + (themeService.currentTheme() === 'dark' ? 'Light' : 'Dark') + ' theme'"
-            (click)="themeService.toggleTheme()">
-            <app-icon [name]="themeService.currentTheme() === 'dark' ? 'sun' : 'moon'" [size]="15" />
-            <span class="theme-text">{{ themeService.currentTheme() === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
-          </button>
-        </div>
+        <!-- Bottom Legal & Support Footer (Inside Right View Bottom) -->
+        <footer class="panel-bottom-footer">
+          <div class="footer-links">
+            <a [href]="config().termsUrl" target="_blank" rel="noopener">Terms of Service</a>
+            <span class="dot-separator">•</span>
+            <a [href]="config().privacyUrl" target="_blank" rel="noopener">Privacy Notice</a>
+            <span class="dot-separator">•</span>
+            <a [href]="'mailto:' + config().supportEmail">Enterprise Support</a>
+          </div>
+          <div class="copyright-text">
+            © 2026 Omni-Bridge Solutions. All rights reserved.
+          </div>
+        </footer>
+
       </div>
-
-      <!-- Centered Auth Card Container -->
-      <div class="auth-card-wrapper animate-slide-up">
-        <!-- Card Header -->
-        <div class="auth-card-header">
-          @if (showBackLink() && backLinkUrl()) {
-            <a [routerLink]="backLinkUrl()" class="back-link">
-              <app-icon name="arrow-left" [size]="14" />
-              <span>{{ backLinkLabel() || 'Back' }}</span>
-            </a>
-          }
-
-          @if (badgeText()) {
-            <div class="auth-header-badge">{{ badgeText() }}</div>
-          }
-
-          <h1 class="auth-card-title">{{ title() }}</h1>
-          @if (subtitle()) {
-            <p class="auth-card-subtitle">{{ subtitle() }}</p>
-          }
-        </div>
-
-        <!-- Injected Screen Content (Forms, Validation, SSO, etc.) -->
-        <div class="auth-card-body">
-          <ng-content></ng-content>
-        </div>
-
-        <!-- Injected Card Footer Actions -->
-        <div class="auth-card-footer">
-          <ng-content select="[slot=footer]"></ng-content>
-        </div>
-      </div>
-
-      <!-- Bottom Legal & Support Footer -->
-      <footer class="panel-bottom-footer">
-        <div class="footer-links">
-          <a [href]="config().termsUrl" target="_blank" rel="noopener">Terms of Service</a>
-          <span class="dot-separator">•</span>
-          <a [href]="config().privacyUrl" target="_blank" rel="noopener">Privacy Notice</a>
-          <span class="dot-separator">•</span>
-          <a [href]="'mailto:' + config().supportEmail">Enterprise Support</a>
-        </div>
-        <div class="copyright-text">
-          © 2026 Omni-Bridge Solutions. All rights reserved.
-        </div>
-      </footer>
     </main>
 
   </div>

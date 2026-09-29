@@ -1,7 +1,7 @@
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
   width: 100%;
 }
 
@@ -47,11 +47,11 @@
   margin-top: 2px;
 }
 
-.native-checkbox:focus-visible + .checkbox-custom-box {
+.native-checkbox:focus-visible+.checkbox-custom-box {
   box-shadow: var(--ring-focus);
 }
 
-.native-checkbox:checked + .checkbox-custom-box {
+.native-checkbox:checked+.checkbox-custom-box {
   background-color: var(--brand-500);
   border-color: var(--brand-500);
 }
@@ -62,7 +62,7 @@
   transition: all var(--transition-fast);
 }
 
-.native-checkbox:checked + .checkbox-custom-box .check-mark {
+.native-checkbox:checked+.checkbox-custom-box .check-mark {
   opacity: 1;
   transform: scale(1);
 }
