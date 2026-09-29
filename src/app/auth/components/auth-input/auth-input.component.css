@@ -6,7 +6,7 @@
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 1rem;
   width: 100%;
 }
 
@@ -156,6 +156,7 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
 .is-disabled input {
   cursor: not-allowed;
 }
