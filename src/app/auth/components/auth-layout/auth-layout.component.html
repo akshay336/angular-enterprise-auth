@@ -1,14 +1,16 @@
 <div class="auth-page-container">
-  <!-- Main Split Layout -->
+  <!-- Main Split Layout: 60% Left / 40% Right Full View -->
   <div class="auth-layout-grid">
     
-    <!-- LEFT SIDE: Enterprise Brand Showcase (Hidden on Mobile/Small Tablets) -->
+    <!-- LEFT SIDE: 60% Enterprise Brand Showcase -->
     <aside class="auth-side-panel" aria-label="Product Showcase">
-      <!-- Background Ambient Pattern -->
+      <!-- Background Ambient Glow & Grid Pattern -->
+      <div class="side-panel-glow side-glow-top"></div>
+      <div class="side-panel-glow side-glow-bottom"></div>
       <div class="side-panel-pattern-overlay"></div>
       
       <div class="side-panel-content">
-        <!-- Brand Logo & Name -->
+        <!-- Brand Logo & Name Header -->
         <header class="side-brand-header">
           <div class="brand-logo-badge">
             <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none">
@@ -18,13 +20,19 @@
             </svg>
             <div class="brand-identity">
               <span class="brand-name">{{ config().appName }}</span>
-              <span class="brand-tier">Omni-Bridge IAM</span>
+              <span class="brand-tier">Enterprise IAM v2.4</span>
             </div>
           </div>
 
-          <div class="compliance-badge">
-            <span class="status-pulse"></span>
-            <span>SOC-2 Type II</span>
+          <div class="header-badges">
+            <div class="status-indicator-badge">
+              <span class="status-pulse"></span>
+              <span>All Systems Operational</span>
+            </div>
+            <div class="compliance-badge">
+              <app-icon name="shield-check" [size]="12" />
+              <span>SOC-2 Type II</span>
+            </div>
           </div>
         </header>
 
@@ -32,21 +40,21 @@
         <div class="showcase-middle">
           <div class="eyebrow-tag">
             <app-icon name="sparkles" [size]="14" />
-            <span>Enterprise Identity Platform</span>
+            <span>Zero-Trust Enterprise Identity Platform</span>
           </div>
           <h2 class="showcase-headline">
             Unified access governance for mission-critical operations.
           </h2>
           <p class="showcase-description">
-            Protect workloads, automate provisioning, and safeguard user identity with zero-trust policies built for enterprise scale.
+            Protect multi-tenant workloads, automate real-time provisioning, and safeguard enterprise identities with zero-trust security policies built for global scale.
           </p>
 
-          <!-- Feature Highlights Grid -->
-          <div class="features-list">
+          <!-- Feature Highlights 2-Column Grid (Fills 60% canvas beautifully) -->
+          <div class="features-grid">
             @for (feat of config().featureHighlights; track feat.title) {
-              <div class="feature-item">
+              <div class="feature-card">
                 <div class="feature-icon-box">
-                  <app-icon [name]="feat.icon" [size]="16" />
+                  <app-icon [name]="feat.icon" [size]="18" />
                 </div>
                 <div class="feature-text">
                   <div class="feat-title">{{ feat.title }}</div>
@@ -55,9 +63,32 @@
               </div>
             }
           </div>
+
+          <!-- Live Security & Telemetry Metric Bar -->
+          <div class="telemetry-bar">
+            <div class="telemetry-item">
+              <div class="telemetry-val">99.999%</div>
+              <div class="telemetry-lbl">Availability SLA</div>
+            </div>
+            <div class="telemetry-divider"></div>
+            <div class="telemetry-item">
+              <div class="telemetry-val">&lt; 35ms</div>
+              <div class="telemetry-lbl">Global Edge Auth</div>
+            </div>
+            <div class="telemetry-divider"></div>
+            <div class="telemetry-item">
+              <div class="telemetry-val">256-bit</div>
+              <div class="telemetry-lbl">AES HSM Security</div>
+            </div>
+            <div class="telemetry-divider"></div>
+            <div class="telemetry-item">
+              <div class="telemetry-val">Zero-Trust</div>
+              <div class="telemetry-lbl">Adaptive Defense</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Bottom Testimonial Card -->
+        <!-- Bottom Testimonial & Trust Card -->
         <footer class="side-testimonial-card">
           <div class="quote-mark">“</div>
           <p class="quote-text">{{ activeTestimonial().quote }}</p>
@@ -67,7 +98,12 @@
               {{ activeTestimonial().author.charAt(0) }}
             </div>
             <div class="author-details">
-              <div class="author-name">{{ activeTestimonial().author }}</div>
+              <div class="author-name-row">
+                <span class="author-name">{{ activeTestimonial().author }}</span>
+                <span class="verified-badge" title="Verified Enterprise Deployment">
+                  <app-icon name="check" [size]="10" /> Verified
+                </span>
+              </div>
               <div class="author-role">{{ activeTestimonial().role }}, {{ activeTestimonial().company }}</div>
             </div>
             @if (activeTestimonial().statNumber) {
@@ -81,11 +117,11 @@
       </div>
     </aside>
 
-    <!-- RIGHT SIDE: Auth Form Container -->
+    <!-- RIGHT SIDE: 40% Auth Form Container -->
     <main class="auth-main-panel">
       <!-- Top Controls: Mobile Brand, Theme Switcher & Back Link -->
       <div class="panel-top-bar">
-        <!-- Mobile Brand Identity -->
+        <!-- Mobile Brand Identity (Visible on mobile screens) -->
         <div class="mobile-brand-logo">
           <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none">
             <rect width="32" height="32" rx="8" fill="var(--brand-500)"/>
@@ -101,7 +137,7 @@
             class="theme-toggle-btn"
             [attr.aria-label]="'Switch to ' + (themeService.currentTheme() === 'dark' ? 'Light' : 'Dark') + ' theme'"
             (click)="themeService.toggleTheme()">
-            <app-icon [name]="themeService.currentTheme() === 'dark' ? 'sun' : 'moon'" [size]="16" />
+            <app-icon [name]="themeService.currentTheme() === 'dark' ? 'sun' : 'moon'" [size]="15" />
             <span class="theme-text">{{ themeService.currentTheme() === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
           </button>
         </div>
